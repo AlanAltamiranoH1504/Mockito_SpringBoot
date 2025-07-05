@@ -2,11 +2,10 @@ package altamirano.hernandez.mockito_springboot.repositories;
 
 import altamirano.hernandez.mockito_springboot.models.Examen;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class ImplExamenReposutory implements IExamenRepository {
+public class ImplExamenRepository implements IExamenRepository {
     @Override
     public List<Examen> findAll() {
 //        return Arrays.asList(

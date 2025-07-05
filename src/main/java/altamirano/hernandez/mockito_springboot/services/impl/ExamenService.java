@@ -2,6 +2,7 @@ package altamirano.hernandez.mockito_springboot.services.impl;
 
 import altamirano.hernandez.mockito_springboot.models.Examen;
 import altamirano.hernandez.mockito_springboot.repositories.IExamenRepository;
+import altamirano.hernandez.mockito_springboot.repositories.IPreguntasRepository;
 import altamirano.hernandez.mockito_springboot.services.IExamenService;
 
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.Optional;
 
 public class ExamenService implements IExamenService {
     private IExamenRepository iExamenRepository;
+    private IPreguntasRepository iPreguntasRepository;
 
-    public ExamenService(IExamenRepository iExamenRepository) {
+    public ExamenService(IExamenRepository iExamenRepository, IPreguntasRepository iPreguntasRepository) {
         this.iExamenRepository = iExamenRepository;
+        this.iPreguntasRepository = iPreguntasRepository;
     }
 
     @Override
@@ -30,6 +33,16 @@ public class ExamenService implements IExamenService {
                 .stream()
                 .filter(examen -> examen.getNombre().equals(nombre)).findFirst();
         return examenToFound;
+    }
+
+    @Override
+    public Optional<Examen> findByNombreAndPreguntas(String nombreExamen) {
+        Optional<Examen> examen = this.findByNombre(nombreExamen);
+        if (examen.isPresent()) {
+            List<String> preguntas = iPreguntasRepository.findPreguntasByExamenId(examen.get().getId());
+            examen.get().setPreguntas(preguntas);
+        }
+        return examen;
     }
 
     @Override
