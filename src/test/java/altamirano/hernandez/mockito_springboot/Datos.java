@@ -14,4 +14,5 @@ public class Datos {
             new Examen(4, "Examen de sistemas informaticos")
     );
     public static final List<String> PREGUNTAS = Arrays.asList("Diferencias", "Integral", "Geometria");
+    public final static Examen EXAMEN = new Examen(1, "Examen de Programacion de Software");
 }

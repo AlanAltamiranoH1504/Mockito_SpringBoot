@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 
 class ExamenServiceTest {
     //Atributos de la clase
@@ -104,5 +106,20 @@ class ExamenServiceTest {
         //Verificiar que no se invoque los metodos
         Mockito.verify(iExamenRepository, Mockito.never()).findAll();
         Mockito.verify(iExamenRepository, Mockito.never());
+    }
+
+    @Test
+    @DisplayName("Test de guardado de examen con preguntas")
+    void testSaveExamenYPreguntas() {
+        Examen examen1 = new Examen(1, "Examen Prueba", Arrays.asList("Pregunta 1", "Pregunta 2", "Pregunta 3"));
+        Mockito.when(iExamenRepository.saveExamen(any(Examen.class))).thenReturn(Datos.EXAMEN);
+        Examen examen = ExamenService.saveExamen(examen1);
+        assertNotNull(examen1);
+        assertEquals("Examen Prueba", examen1.getNombre());
+        assertEquals(1, examen1.getId());
+
+        //Verificacion de invocacion de metodos
+        Mockito.verify(iExamenRepository).saveExamen(any(Examen.class));
+        Mockito.verify(iPreguntasRepository).guardarPreguntas(anyList());
     }
 }

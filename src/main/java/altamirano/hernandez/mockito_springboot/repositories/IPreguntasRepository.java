@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface IPreguntasRepository {
     public abstract List<String> findPreguntasByExamenId(int examenId);
+    public abstract void guardarPreguntas(List<String> preguntas);
 }

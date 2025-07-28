@@ -16,4 +16,9 @@ public class ImplExamenRepository implements IExamenRepository {
 //        );
         return Collections.emptyList();
     }
+
+    @Override
+    public Examen saveExamen(Examen examen) {
+        return null;
+    }
 }

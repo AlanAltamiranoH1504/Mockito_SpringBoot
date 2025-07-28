@@ -11,4 +11,5 @@ public interface IExamenService {
     public abstract Optional<Examen> findByNombre(String nombre);
     public abstract Optional<Examen> findByNombreAndPreguntas(String nombreExamen);
     public abstract void save(Examen examen);
+    public abstract Examen saveExamen(Examen examen);
 }

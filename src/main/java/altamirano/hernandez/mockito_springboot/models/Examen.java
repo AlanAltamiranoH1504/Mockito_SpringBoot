@@ -1,11 +1,12 @@
 package altamirano.hernandez.mockito_springboot.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Examen {
     private int id;
     private String nombre;
-    private List<String> preguntas;
+    private List<String> preguntas = new ArrayList<>();
 
     public Examen() {
     }
