@@ -8,10 +8,7 @@ import altamirano.hernandez.mockito_springboot.services.IExamenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,8 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.*;
 
 class ExamenServiceTest {
     //Atributos de la clase
@@ -121,5 +117,25 @@ class ExamenServiceTest {
         //Verificacion de invocacion de metodos
         Mockito.verify(iExamenRepository).saveExamen(any(Examen.class));
         Mockito.verify(iPreguntasRepository).guardarPreguntas(anyList());
+    }
+
+    @Test
+    void testManejoExepciones() {
+        Mockito.when(iExamenRepository.findAll()).thenReturn(Datos.EXAMENES);
+        Mockito.when(iPreguntasRepository.findPreguntasByExamenId(anyInt())).thenThrow(IllegalArgumentException.class);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            ExamenService.findByNombreAndPreguntas("Examen Prueba");
+        });
+    }
+
+    @Test
+    void testArgumentMatchers() {
+        Mockito.when(iExamenRepository.findAll()).thenReturn(Datos.EXAMENES);
+        Mockito.when(iPreguntasRepository.findPreguntasByExamenId(anyInt())).thenReturn(Datos.PREGUNTAS);
+        ExamenService.findByNombreAndPreguntas("Matematicas");
+
+        Mockito.verify(iExamenRepository).findAll();
+        Mockito.verify(iPreguntasRepository).findPreguntasByExamenId(eq(5));
     }
 }
